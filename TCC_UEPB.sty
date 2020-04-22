@@ -1,0 +1,264 @@
+%%
+%% ABNTeX2 customization (http://www.abntex.net.br) for 
+%% Universidade Estadual da Paraíba (UEPB).
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Gustavo H. Esteves,
+%% e-mail: gesteves@servidor.uepb.edu.br
+%%
+%% Further information about abnTeX2 are available 
+%% on http://www.abntex.net.br
+%%
+
+% -----------------------------------------------------------
+% BEGIN OF CUSTOMIZATION FOR UNIVERSIDADE ESTADUAL DA PARAÍBA
+% -----------------------------------------------------------
+
+\ProvidesPackage{TCC_UEPB}[2020/04/14]
+
+
+
+% ----------------------------------------------------------
+
+% Definindo comandos para o Campus
+\newcommand{\campusN}{CAMPUS XX}
+\providecommand{\imprimircampusRotulo}{}
+\providecommand{\imprimircampus}{}
+\newcommand{\campus}[2][\campusN]%
+{\renewcommand{\imprimircampusRotulo}{#1}%
+	\renewcommand{\imprimircampus}{#2}}
+
+% Definindo comandos para o Centro
+\newcommand{\centroN}{CENTRO XX}
+\providecommand{\imprimircentroRotulo}{}
+\providecommand{\imprimircentro}{}
+\newcommand{\centro}[2][\centroN]%
+{\renewcommand{\imprimircentroRotulo}{#1}%
+	\renewcommand{\imprimircentro}{#2}}
+
+% Definindo comandos para o Depto
+\newcommand{\deptoN}{DEPARTAMENTO XX}
+\providecommand{\imprimirdeptoRotulo}{}
+\providecommand{\imprimirdepto}{}
+\newcommand{\depto}[2][\deptoN]%
+{\renewcommand{\imprimirdeptoRotulo}{#1}%
+	\renewcommand{\imprimirdepto}{#2}}
+
+% Definindo comandos para o curso
+\newcommand{\cursoN}{CURSO XXXXX}
+\providecommand{\imprimircursoRotulo}{}
+\providecommand{\imprimircurso}{}
+\newcommand{\curso}[2][\cursoN]%
+{\renewcommand{\imprimircursoRotulo}{#1}%
+	\renewcommand{\imprimircurso}{#2}}
+
+% Definindo comandos para os dois membros da banca e a data da defesa...
+\newcommand{\datadefesaD}{DD de MM de AAAA}
+\providecommand{\imprimirdatadefesaRotulo}{}
+\providecommand{\imprimirdatadefesa}{}
+\newcommand{\datadefesa}[2][\datadefesaD]%
+  {\renewcommand{\imprimirdatadefesaRotulo}{#1}%
+   \renewcommand{\imprimirdatadefesa}{#2}}
+
+
+\newcommand{\membroumname}{Membro um}
+\newcommand{\membrodoisname}{Membro dois}
+\newcommand{\membrotresname}{Membro três}
+
+% Comandos de dados - Membro da banca um
+\providecommand{\imprimirmembroumRotulo}{}
+\providecommand{\imprimirmembroum}{}
+\newcommand{\membroum}[2][\membroumname]%
+  {\renewcommand{\imprimirmembroumRotulo}{#1}%
+   \renewcommand{\imprimirmembroum}{#2}}
+   
+% Comandos de dados - Membro da banca dois
+\providecommand{\imprimirmembrodoisRotulo}{}
+\providecommand{\imprimirmembrodois}{}
+\newcommand{\membrodois}[2][\membrodoisname]%
+  {\renewcommand{\imprimirmembrodoisRotulo}{#1}%
+   \renewcommand{\imprimirmembrodois}{#2}}
+   
+% Comandos de dados - Membro da banca três
+\providecommand{\imprimirmembrotresRotulo}{}
+\providecommand{\imprimirmembrotres}{}
+\newcommand{\membrotres}[2][\membrotresname]%
+  {\renewcommand{\imprimirmembrotresRotulo}{#1}%
+   \renewcommand{\imprimirmembrotres}{#2}}
+
+
+
+% ----------------------------------------------------------
+% alterando a capa
+\renewcommand{\imprimircapa}{
+  \begin{capa}
+    \center
+    \ABNTEXchapterfont\bfseries
+    \includegraphics[width=1.5cm]{logo_UEPB} 
+    
+    \MakeUppercase{Universidade Estadual da Paraíba} \\
+    \MakeUppercase{\imprimircampus} \\
+    \abntex@ifnotempty{\imprimircentro}{\MakeUppercase{\imprimircentro} \\}
+    \abntex@ifnotempty{\imprimirdepto}{\MakeUppercase{\imprimirdepto} \\}
+    \MakeUppercase{\imprimircurso} \\
+        
+	\vfill
+    \MakeUppercase{\imprimirautor}
+    
+    \vfill
+    {\large \MakeUppercase{\imprimirtitulo}}
+
+    \vfill    
+    \MakeUppercase{\imprimirlocal} \\
+    \MakeUppercase{\imprimirdata}
+    
+    \vspace*{1cm}
+  \end{capa}
+}
+
+
+
+% ----------------------------------------------------------
+% folha de rosto 
+
+\makeatletter
+
+\renewcommand{\folhaderostocontent}{
+\begin{center}
+    
+    \vspace*{1cm}
+    
+{\ABNTEXchapterfont\MakeUppercase{\imprimirautor}}
+
+%\vspace*{\fill}\vspace*{\fill}
+\vspace*{4cm}
+
+\begin{center}
+\ABNTEXchapterfont\bfseries\MakeUppercase{\imprimirtitulo}
+\end{center}
+
+%\vspace*{\fill}
+\vspace*{1cm}
+
+\abntex@ifnotempty{\imprimirpreambulo}{%
+  \hspace{.45\textwidth}
+  \begin{minipage}{.5\textwidth}
+  \ABNTEXchapterfont\SingleSpacing
+  \imprimirpreambulo
+  \end{minipage}%
+  %\vspace*{\fill}
+}%
+
+\vspace*{1.5cm}
+
+{\ABNTEXchapterfont\bfseries Orientador:} {\ABNTEXchapterfont\imprimirorientadorRotulo~\imprimirorientador\par}
+
+\abntex@ifnotempty{\imprimircoorientador}{%
+  {\ABNTEXchapterfont\bfseries Coorientador:} {\ABNTEXchapterfont\imprimircoorientadorRotulo~\imprimircoorientador}%
+}%
+
+\vspace*{\fill}
+
+{\ABNTEXchapterfont\bfseries \MakeUppercase{\imprimirlocal} \\
+   \MakeUppercase{\imprimirdata}}
+
+\vspace*{1cm}
+\end{center}
+}
+
+\makeatother
+
+
+
+
+
+% ----------------------------------------------------------
+% folha de aprovação
+
+\makeatletter
+
+\newcommand{\folhadeaprovacaoUEPB}{
+	\begin{folhadeaprovacao}
+		\ABNTEXchapterfont
+		\begin{center}
+			\MakeUppercase{\imprimirautor}
+			
+			\vspace*{\fill}\vspace*{\fill}
+			\begin{center}
+				\MakeUppercase{\imprimirtitulo}
+			\end{center}
+			\vspace*{\fill}
+			
+			\hspace{.45\textwidth}
+			\begin{minipage}{.5\textwidth}
+				\SingleSpacing\imprimirpreambulo
+			\end{minipage}%
+			%\vspace*{\fill}
+			\vspace*{1cm}
+		\end{center}
+		
+		\vfill
+		
+		Trabalho aprovado em \imprimirdatadefesa.
+		
+		\vfill
+		
+		\begin{center}
+		{\bfseries BANCA EXAMINADORA}
+		\end{center}
+		
+		\assinatura{\imprimirmembroumRotulo~\imprimirmembroum}
+		\assinatura{\imprimirmembrodoisRotulo~\imprimirmembrodois}
+		\assinatura{\imprimirmembrotresRotulo~\imprimirmembrotres}
+		
+		\vspace*{1cm}
+		
+		\vfill
+				
+	\end{folhadeaprovacao}
+}
+
+
+%------------------------------------------------------------------------
+% Alterando o tamanho padrão das fontes de títulos de capítulos, etc
+\renewcommand{\ABNTEXchapterfontsize}{\bfseries\normalsize}
+\renewcommand{\ABNTEXsectionfontsize}{\bfseries\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\itshape\bfseries\normalsize}
+\renewcommand{\ABNTEXsubsubsectionfontsize}{\itshape\normalsize}
+\renewcommand{\ABNTEXsubsubsubsectionfontsize}{\normalsize}
+
+
+%------------------------------------------------------------------------
+% Organizando o padrao de impressão do sumário
+\renewcommand{\cftsubsectionfont}{\itshape\bfseries}
+\renewcommand{\cftsubsubsectionfont}{\itshape}
+\renewcommand{\cftparagraphfont}{\normalsize}
+
+
+%------------------------------------------------------------------------
+% Ajusta o tamanho do parágrafo
+\setlength{\parindent}{1.25cm}
+
+
+%------------------------------------------------------------------------
+% Espaçamento entre um parágrafo e outro
+\setlength{\parskip}{0cm}  % tente também \onelineskip
+
+
+%------------------------------------------------------------------------
+% Ajusta espaçamento depois dos títulos de capítulo
+\setlength\afterchapskip{\onelineskip}
+
+
+% ----------------------------------------------------------
+%   END OF CUSTOMIZATION FOR UNIVERSIDADE ESTADUAL DA PARAÍBA
+% ----------------------------------------------------------
