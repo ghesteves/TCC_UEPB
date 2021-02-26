@@ -1,16 +1,18 @@
-\documentclass[12pt,oneside,a4paper,chapter=TITLE,english,brazil]{abntex2}
+%%-----------------------------------------------------------------------
 % O argumento chapter=TITLE define que todos os títulos de capítulos
 % saiam em caixa alta (maiúsculas). Se não quiser caixa alta, basta
 % remover este argumento.
+\documentclass[12pt,oneside,a4paper,chapter=TITLE,
+			   english,brazil]{abntex2}
 
 
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
 % Carregando a padronização para a capa, contra-capa e folha de
 % assinaturas adotada pela UEPB
 \usepackage{TCC_UEPB}
 
 
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
 % Pacotes básicos 
 \usepackage{lmodern}		% Usa a fonte Latin Modern			
 \usepackage[T1]{fontenc}	% Selecao de codigos de fonte.
@@ -22,74 +24,101 @@
 \usepackage{microtype} 		% para melhorias de justificação
 \usepackage{pdfpages}		% para a inclusão de documentos em PDF.
 
-%------------------------------------------------------------------------
+
+%%------------------------------------------------------------------------
 % Pacotes adicionais, para definir ambientes para definição, teorema 
 % e axioma. Outros ambientes podem ser definidos da mesma forma...
 \usepackage{amssymb}     % qed
 \usepackage{amsthm}      % Teoremas
+\usepackage{amsmath}     % Para o ambiente align (alinhar equações)
 \usepackage{thmtools}    % Front end para amsthm (\declaretheorem)
 
+
+%%-----------------------------------------------------------------------
+% Definição de ambientes para definição, teorema, etc...
 \declaretheorem[style=definition,name=Definição,qed=\textemdash]{definicao}
 \declaretheorem[style=plain,name=Teorema,qed=\textnormal{\textemdash}]{teorema}
 \declaretheorem[style=plain,name=Axioma,qed=\textnormal{\textemdash}]{axioma}
 \declaretheorem[style=plain,name=Lema,qed=\textnormal{\textemdash}]{lema}
 
-%------------------------------------------------------------------------
+
+%%------------------------------------------------------------------------
 % Pacotes de citações
 \usepackage[brazilian,hyperpageref]{backref} % Página citada na bibliog.
 \usepackage[alf]{abntex2cite}				 % Citações padrão ABNT
 
 
 
-%------------------------------------------------------------------------
-% CONFIGURAÇÕES DE PACOTES
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
+%% CONFIGURAÇÕES DE PACOTES
+%%-----------------------------------------------------------------------
 
-%------------------------------------------------------------------------
+
+%%-----------------------------------------------------------------------
 % Configurações do pacote backref Usado sem a opção hyperpageref
 % de backref
 \renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
 % Texto padrão antes do número das páginas
-\renewcommand{\backref}{}      % Define os textos da citação
+\renewcommand{\backref}{}   % Define os textos da citação
 \renewcommand*{\backrefalt}[4]{
 	\ifcase #1 %
-		Nenhuma citação no texto.%
+	Nenhuma citação no texto.%
 	\or
-		Citado na página #2.%
+	Citado na página #2.%
 	\else
-		Citado #1 vezes nas páginas #2.%
+	Citado #1 vezes nas páginas #2.%
 	\fi}%
 
-%-----------------------------------------------------------------------
+
+%%----------------------------------------------------------------------
 % Configurações de aparência do PDF final
-\definecolor{blue}{RGB}{41,5,195}% alterando o aspecto da cor azul
 \makeatletter
-\hypersetup{            % informações do PDF
+\hypersetup{     % informações do PDF
 	pdftitle={\@title}, 
 	pdfauthor={\@author},
 	pdfsubject={\imprimirpreambulo},
-	pdfcreator={LaTeX with abnTeX2},
-	pdfkeywords={abnt}{latex}{abntex}{abntex2}{trabalho acadêmico}, 
-	colorlinks=true,     % false: boxed links; true: colored links
-	linkcolor=black,     % color of internal links
-	citecolor=black,     % color of links to bibliography
-	filecolor=black,     % color of file links
-	urlcolor=black,      % color of url links
+	colorlinks=true,   % false: box links; true: color links
+	linkcolor=black,   % color of internal links
+	citecolor=black,   % color of links to bibliography
+	filecolor=black,   % color of file links
+	urlcolor=black,    % color of url links
 	bookmarksdepth=4
 }
 \makeatother
 
-%------------------------------------------------------------------------
+
+%%------------------------------------------------------------------
+% Cria uma nova série (de símbolos) para footnotes
+\newcounter{savefootnote}
+\newcounter{symfootnote}
+\newcommand{\symfootnote}[1]{%
+	\setcounter{savefootnote}{\value{footnote}}%
+	\setcounter{footnote}{\value{symfootnote}}%
+	\ifnum\value{footnote}>8\setcounter{footnote}{0}\fi%
+	\let\oldthefootnote=\thefootnote%
+	\renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+	\footnote{#1}%
+	\let\thefootnote=\oldthefootnote%
+	\setcounter{symfootnote}{\value{footnote}}%
+	\setcounter{footnote}{\value{savefootnote}}%
+}
+
+
+%%-----------------------------------------------------------------------
 % Informações de dados para CAPA, FOLHA DE ROSTO e FOLHA DE APROVAÇÃO
 \titulo{Título do trabalho: subtítulo} % Subtítulo apenas se houver
 \autor{Nome do Aluno}                  % Digite seu nome aqui
 \local{Campina Grande - PB}
 \data{Ano}                             % Na data coloque apenas o ano
 \orientador[Prof.]{Nome do Orientador} % Nome do orientador aqui
-%\coorientador[Prof.]{Nome do Coorientador}
-% Coloque o coorientador apenas de tiver
+%\coorientador[Prof.]{Nome do Coorientador} % Coorientador (se tiver)
 
-% Centro de departamento não são obrigatórios
+
+%%-----------------------------------------------------------------------
+% Informações sobre campus, centro, depto e curso
+% \campus e \curso são obrigatórios e precisam ser preenchidos!!
+% Todos os demais são opcionais (para o LaTeX), pois note que o 
+% \preambulo é exigido pela Biblioteca na entrega do trabalho.
 \campus{Campus I}
 \centro{Centro de Ciências e Tecnologia}
 \depto{Departamento de Estatística}
@@ -100,74 +129,82 @@
 }
 
 
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
 % compila o indice
 \makeindex
 
 
 
+%%-----------------------------------------------------------------------
+%%      INÍCIO DO DOCUMENTO
+%%-----------------------------------------------------------------------
 
-%------------------------------------------------------------------------
-% Início do documento
+
 \begin{document}
+
 
 % Retira espaço extra obsoleto entre as frases.
 \frenchspacing 
 
 
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
 % ELEMENTOS PRÉ-TEXTUAIS
-%------------------------------------------------------------------------
 \pretextual
 
 
-%------------------------------------------------------------------------
+%%------------------------------------------------------------------------
 % Capa
 \imprimircapa
 
 
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
 % Folha de rosto
 \imprimirfolhaderosto
 
 
 %%-----------------------------------------------------------------------
-%% Inserir a ficha bibliografica (depois de feita pela Biblioteca e salva em PDF). Descomentar as 4 linhas abaixo.
-% \begin{fichacatalografica}
-%     \includepdf{fig_ficha_catalografica.pdf}
-% \end{fichacatalografica}
-% \setcounter{page}{2}
+% Inserir a ficha bibliografica (depois de feita pela Biblioteca e salva 
+% em PDF). Descomentar as 4 linhas abaixo.
+%\begin{fichacatalografica}
+%    \includepdf{ficha_catalografica.pdf}
+%\end{fichacatalografica}
+%\setcounter{page}{2}
 
 
-%------------------------------------------------------------------------
+%%------------------------------------------------------------------------
 % Inserir folha de aprovação
-\membroum[Prof.]{Primeiro Membro (Orientador) \\ Universidade Estadual da Paraíba (UEPB)}
-\membrodois[Prof.]{Segundo Membro \\ Universidade Estadual da Paraíba (UEPB)}
-\membrotres[Profa.]{Terceiro Membro \\ Universidade Estadual da Paraíba (UEPB)}
+\setlength{\ABNTEXsignwidth}{8cm}    % Comp. da linha de assinaturas
+\membroum[Prof.]{Primeiro Membro (Orientador) \\ 
+	Universidade Estadual da Paraíba (UEPB)}
+\membrodois[Prof.]{Segundo Membro \\ 
+	Universidade Estadual da Paraíba (UEPB)}
+\membrotres[Profa.]{Terceiro Membro \\ 
+	Universidade Estadual da Paraíba (UEPB)}
 \datadefesa{DIA de MÊS de ANO}
 \folhadeaprovacaoUEPB
 
-%%-----------------------------------------------------------------------%%       IMPORTANTE!!
-%%-----------------------------------------------------------------------% Após a defesa, substitua todo o conteúdo das 5 linhas acima por uma
-% imagem digitalizada da página assinada pela banca com o comando abaixo:
-%
-% \includepdf{folhadeaprovacao_final.pdf}
+%%-----------------------------------------------------------------------       
+%%                         IMPORTANTE!!
+% Após a defesa digitalize a folha de aprovação em um arquivo PDF, co-
+% mente as 9 linhas acima e acrescente o PDF digitalizado descomentando
+% a linha a seguir:
+%\includepdf{folha_aprovacao.pdf}
 
 
-%------------------------------------------------------------------------
-% Dedicatória (OPCIONAL)
+%%-----------------------------------------------------------------------
+%                Dedicatória (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \begin{dedicatoria}
-   \vspace*{\fill}
-   \centering
-   \noindent
-   \textit{Digite sua dedicatória aqui.}
-   \vspace*{\fill}
+	\vspace*{\fill}
+	\hspace{.45\textwidth}
+	\begin{minipage}{.5\textwidth}
+   		Digite sua dedicatória aqui.
+	\end{minipage}
 \end{dedicatoria}
 
 
-%------------------------------------------------------------------------
-% Agradecimentos (OPCIONAL)
+%%-----------------------------------------------------------------------
+%              Agradecimentos (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \begin{agradecimentos}
 Digite aqui os seus agradecimentos pessoais. Pode ser para pessoas,
@@ -175,26 +212,26 @@ instituições, etc.
 \end{agradecimentos}
 
 
-%------------------------------------------------------------------------
-% Epígrafe  (OPCIONAL)
+%%-----------------------------------------------------------------------
+%                  Epígrafe  (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \begin{epigrafe}
     \vspace*{\fill}
 	\begin{flushright}
-		\textit{``Digite aqui alguma frase ou algum \\
+		``Digite aqui alguma frase ou algum \\
 		pensamento que vc queira colocar como epígrafe.'' \\
-		(Citar o Autor aqui)}
+		(Citar o Autor aqui)
 	\end{flushright}
 \end{epigrafe}
 
 
-%------------------------------------------------------------------------
-% RESUMOS
+%%------------------------------------------------------------------------
+%                           RESUMOS
 % O resumo em português é obrigatório, seguido da sua versão em outro 
 % idioma, que pode ser inglês (mais comum), francês ou espanhol.
 
 % resumo em português (OBRIGATÓRIO)
-\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\setlength{\absparsep}{18pt} % ajusta espaçamento de parág. do resumo
 \begin{resumo}
  Segundo a \citeonline[3.1-3.2]{NBR6028:2003}, o resumo deve ressaltar o objetivo, o método, os resultados e as conclusões do documento. A ordem e a extensão destes itens dependem do tipo de resumo (informativo ou indicativo) e do tratamento que cada item recebe no documento original. O resumo deve ser precedido da referência do documento, com exceção do resumo inserido no próprio documento. (\ldots) As palavras-chave devem figurar logo abaixo do resumo, antecedidas da expressão Palavras-chave:, separadas entre si por ponto e finalizadas também por ponto.
 
@@ -212,16 +249,16 @@ instituições, etc.
 \end{resumo}
 
 
-%------------------------------------------------------------------------
-% inserir lista de ilustrações (OPCIONAL)
+%%-----------------------------------------------------------------------
+%              inserir lista de ilustrações (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \pdfbookmark[0]{\listfigurename}{lof}
 \listoffigures*
 \cleardoublepage
 
 
-%------------------------------------------------------------------------
-% inserir lista de tabelas (OPCIONAL)
+%%-----------------------------------------------------------------------
+%              inserir lista de tabelas (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \pdfbookmark[0]{\listtablename}{lot}
 \listoftables*
@@ -229,29 +266,29 @@ instituições, etc.
 
 
 %%-----------------------------------------------------------------------
-%% Para inserir lista de definições (OPCIONAL),
-%% Comente as linhas abaixo se não quiser usar.
-%\renewcommand{\listtheoremname}{LISTA DE DEFINIÇÕES}
-%\pdfbookmark[0]{\listtheoremname}{lod}
-%\begin{KeepFromToc}
-%	\listoftheorems[ignoreall,show=definicao]
-%\end{KeepFromToc}
-%\cleardoublepage
+%           Para inserir lista de definições (OPCIONAL),
+% Comente as linhas abaixo se não quiser usar.
+\renewcommand{\listtheoremname}{LISTA DE DEFINIÇÕES}
+\pdfbookmark[0]{\listtheoremname}{lod}
+\begin{KeepFromToc}
+	\listoftheorems[ignoreall,show=definicao]
+\end{KeepFromToc}
+\cleardoublepage
 
 
 %%-----------------------------------------------------------------------
-%% Para inserir lista de axiomas e teoremas (OPCIONAL),
-%% Comente as linhas abaixo se não quiser usar.
-%\renewcommand{\listtheoremname}{LISTA DE AXIOMAS E TEOREMAS}
-%\pdfbookmark[0]{\listtheoremname}{loat}
-%\begin{KeepFromToc}
-%	\listoftheorems[ignoreall,show={axioma,teorema}]
-%\end{KeepFromToc}
-%\cleardoublepage
+%        Para inserir lista de axiomas e teoremas (OPCIONAL),
+% Comente as linhas abaixo se não quiser usar.
+\renewcommand{\listtheoremname}{LISTA DE AXIOMAS E TEOREMAS}
+\pdfbookmark[0]{\listtheoremname}{loat}
+\begin{KeepFromToc}
+	\listoftheorems[ignoreall,show={axioma,teorema}]
+\end{KeepFromToc}
+\cleardoublepage
 
 
-%-----------------------------------------------------------------------
-% Para inserir lista de abreviaturas e siglas (OPCIONAL)
+%%-----------------------------------------------------------------------
+%      Para inserir lista de abreviaturas e siglas (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \begin{siglas}
   \item[ABNT] Associação Brasileira de Normas Técnicas
@@ -259,8 +296,8 @@ instituições, etc.
 \end{siglas}
 
 
-%-----------------------------------------------------------------------
-% Para inserir lista de símbolos (OPCIONAL)
+%%-----------------------------------------------------------------------
+%          Para inserir lista de símbolos (OPCIONAL)
 % Comente as linhas abaixo se não quiser usar.
 \begin{simbolos}
   \item[$\Gamma$] Letra grega Gama
@@ -270,22 +307,20 @@ instituições, etc.
 \end{simbolos}
 
 
-%------------------------------------------------------------------------
-% inserir o sumario
+%%-----------------------------------------------------------------------
+%           Inserir o Sumario
 \pdfbookmark[0]{\contentsname}{toc}
 \tableofcontents*
 \cleardoublepage
 
 
-%------------------------------------------------------------------------
-% ELEMENTOS TEXTUAIS
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
+%        ELEMENTOS TEXTUAIS
 \textual
 
 
-%------------------------------------------------------------------------
-% Introdução
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
+%                     Introdução
 \chapter{Introdução}
 \label{introducao}
 
@@ -300,8 +335,8 @@ Note que todas as referências bibliográficas citadas aqui estão em um arquivo
 No Anexo \ref{exemplos} são apresentados exemplos de códigos específicos para ajudar na elaboração do seu material, que foram extraídos de um modelo preparado pela equipe do \abnTeX. Note que este anexo está inserido aqui apenas a título de exemplo e deve DEVE ser removido para a elaboração do seu Trabalho de Conclusão de Curso.
 
 
-%------------------------------------------------------------------------
-% Capitulo de revisão de literatura
+%%-----------------------------------------------------------------------
+%                Capitulo de revisão de literatura
 \chapter{Fundamentação Teórica}
 
 Aqui deve ser digitada toda a revisão teórica (de estatística) do(s) método(s) que serão abordados no trabalho. Inicialmente, deve existir um levantamento histórico e depois a apresentação da teoria estatística propriamente dita. Note que você pode utilizar quantas seções e subseções forem necessárias para o seu trabalho.
@@ -330,54 +365,63 @@ Exemplo de teorema...
 
 
 %------------------------------------------------------------------------
-% Capítulo referente à Aplicação
+%               Capítulo referente à Aplicação
 \chapter{Aplicação}
 
 Neste capítulo você deve apresentar um trabalho prático aplicando o(s) método(s) apresentado(s) anteriormente.
 
+%------------------------------------------------------------------------
 \section{Seção 1}
 Aqui é possível se usar quantas seções e subseções forem necessárias, de acordo com o trabalho.
 
+%------------------------------------------------------------------------
 \section{Seção 2}
 
 
-%------------------------------------------------------------------------
-% Conclusão
+%%-----------------------------------------------------------------------
+%                      Conclusão
 \chapter{Conclusão}
 
 Aqui você deve apresentar as principais conclusões (estatísticas) obtidas a partir do trabalho realizado. Você também pode (e deve) apresentar perspectivas futuras em relação ao trabalho desenvolvido.
 
 
-%------------------------------------------------------------------------
-% ELEMENTOS PÓS-TEXTUAIS
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
+%               ELEMENTOS PÓS-TEXTUAIS
 \postextual
 
 
-%------------------------------------------------------------------------
-% Referências bibliográficas
+%%-----------------------------------------------------------------------
+%                  Referências bibliográficas
 \bibliography{modelo_Bibtex}
 
 
 
-%------------------------------------------------------------------------
-% OBSERVAÇÃO IMPORTANTE
+%%-----------------------------------------------------------------------
+%%                     OBSERVAÇÃO IMPORTANTE
 %
-% Tudo o que vem a partir daqui é opcional e só deve ficar se for
-% usado no trabalho.
+% Tudo o que vem a partir daqui é opcional e só deve ficar se for 
+% usado no  trabalho.
 %------------------------------------------------------------------------
 
 
-%------------------------------------------------------------------------
-% Glossário
-%
+
+
+%%-----------------------------------------------------------------------
+%                     Glossário
 % Consulte o manual da classe abntex2 para orientações sobre o glossário.
-%
 %\glossary
 
 
-%------------------------------------------------------------------------
-% Apêndices
+
+
+
+%%-----------------------------------------------------------------------
+%%                          Apêndices
+% 
+% Os Apêndices devem usados para inserir algum texto de produção SUA, 
+% que não seja essencial para o trabalho principal, mas cuja inclusão 
+% seja interessante.
+
 
 %------------------------------------------------------------------------
 % Inicia os apêndices
@@ -399,8 +443,12 @@ Texto do segundo apêndice.
 
 
 
-%------------------------------------------------------------------------
-% Anexos
+
+%% ------------------------------------------------------------------------
+%%                             Anexos
+% 
+% Os Anexos têm a mesma funcionalidade dos Apêndices, mas para a inclusão
+% de algum texto que NÃO seja de SUA  autoria.
 
 %------------------------------------------------------------------------
 % Inicia os anexos
@@ -887,10 +935,11 @@ Texto do segundo anexo.
 \end{anexosenv}
 
 
-%------------------------------------------------------------------------
-% INDICE REMISSIVO
-%------------------------------------------------------------------------
+%%-----------------------------------------------------------------------
+%%                      INDICE REMISSIVO
+%%-----------------------------------------------------------------------
 \phantompart
 \printindex
+
 
 \end{document}
