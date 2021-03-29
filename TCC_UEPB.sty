@@ -96,13 +96,16 @@
    \renewcommand{\imprimirmembrotres}{#2}}
 
 
+% Remove as serifas do texto
+\renewcommand{\sfdefault}{\rmdefault}
+
 
 % ----------------------------------------------------------
 % alterando a capa
 \renewcommand{\imprimircapa}{
   \begin{capa}
     \center
-    \ABNTEXchapterfont\bfseries
+    \ABNTEXchapterfont \bfseries
     \includegraphics[width=1.5cm]{logo_UEPB} 
     
     \MakeUppercase{Universidade Estadual da Paraíba} \\
